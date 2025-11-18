@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 env:
-  WCDB_VERSION: v2.1.14
+  WCDB_VERSION: v2.1.15
   REPO_ROOT: ${{ github.workspace }}
   WCDB_DIR: ${{ github.workspace }}/wcdb
   PATCH_DIR: ${{ github.workspace }}/patches
@@ -59,17 +59,6 @@ jobs:
           cd "$WCDB_DIR"
           git submodule update --init --recursive --depth 1
           cp LICENSE $REPO_ROOT/WCDB-LICENSE
-
-      - name: Apply Patches
-        run: |
-          cd "$WCDB_DIR"
-          git clean -fdx
-          echo "[*] Applying patch for wcdb"
-          git apply "$PATCH_DIR/wcdb_${WCDB_VERSION}.patch"
-
-          cd sqlcipher
-          echo "[*] Applying patch for sqlcipher"
-          git apply "$PATCH_DIR/sqlcipher_${WCDB_VERSION}.patch"
 
       - name: Build XCFramework
         run: |
